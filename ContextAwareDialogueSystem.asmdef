@@ -1,3 +1,16 @@
 {
-	"name": "ContextAwareDialogueSystem"
+    "name": "ContextAwareDialogueSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f7aeae19b5e92df4683c2d66ad39e1d9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

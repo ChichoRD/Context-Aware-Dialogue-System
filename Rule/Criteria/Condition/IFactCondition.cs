@@ -1,6 +1,6 @@
 ﻿using ContextualDialogueSystem.Fact;
 
-namespace ContextualDialogueSystem.Rule.Criteria
+namespace ContextualDialogueSystem.Rule.Criteria.Condition
 {
     internal interface IFactCondition<in T>
     {

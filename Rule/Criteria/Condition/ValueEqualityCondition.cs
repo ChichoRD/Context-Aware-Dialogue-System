@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace ContextualDialogueSystem.Rule.Criteria
+namespace ContextualDialogueSystem.Rule.Criteria.Condition
 {
     [Serializable]
     internal class ValueEqualityCondition<T> : IFactCondition<T>

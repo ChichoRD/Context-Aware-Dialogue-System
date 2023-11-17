@@ -1,5 +1,5 @@
 ﻿using ContextualDialogueSystem.Fact;
-using System.Collections.Generic;
+using ContextualDialogueSystem.Rule.Criteria.Condition;
 using UnityEngine;
 
 namespace ContextualDialogueSystem.Rule.Criteria
@@ -10,51 +10,28 @@ namespace ContextualDialogueSystem.Rule.Criteria
         private const string OBJECT_NAME = "Criteria Object";
         private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Rule/Criteria/" + OBJECT_NAME;
 
-        [SerializeReference]
-        private List<ICriteriaCondition> _factConditions = new List<ICriteriaCondition>();
+        [SerializeField]
+        private OrderingCondition<int> _orderingCondition;
 
-        public bool IsMet() => _factConditions.TrueForAll(factCondition => factCondition.Satisfies());
+        [SerializeField]
+        private SimultaneousCriteria _simultaneousCriteria;
 
-        [ContextMenu(nameof(AddEqualityFactCondition))]
-        private void AddEqualityFactCondition() => _factConditions.Add(new IntegerFactCriteriaCondition(null, new ValueEqualityCondition(default)));
-
-        [ContextMenu(nameof(AddOrderingFactCondition))]
-        private void AddOrderingFactCondition() => _factConditions.Add(new IntegerFactCriteriaCondition(null, new OrderingCondition(default, default)));
-
-        [ContextMenu(nameof(DebugIsMet))]
-        private void DebugIsMet() => Debug.Log(IsMet());
-
-        private interface IIntegerFactCondition : IFactCondition<int> { }
-
-        private class IntegerFactCriteriaCondition : ICriteriaCondition
+        public bool IsMet()
         {
-            [SerializeField]
-            private IntegerFactObject _fact;
-
-            [SerializeReference]
-            private IIntegerFactCondition _condition;
-
-            public IntegerFactCriteriaCondition(IntegerFactObject fact, IIntegerFactCondition condition)
-            {
-                _fact = fact;
-                _condition = condition;
-            }
-
-            public bool Satisfies() => _condition.Satisfies<int>(_fact);
+            throw new System.NotImplementedException();
         }
 
-        private class OrderingCondition : OrderingCondition<int>, IIntegerFactCondition
+        [ContextMenu(nameof(DebugCriteria))]
+        private void DebugCriteria()
         {
-            public OrderingCondition(int value, OrderingComparison orderingComparison) : base(value, orderingComparison)
-            {
-            }
-        }
-
-        private class ValueEqualityCondition : ValueEqualityCondition<int>, IIntegerFactCondition
-        {
-            public ValueEqualityCondition(int value) : base(value)
-            {
-            }
+            _simultaneousCriteria.TestConditions.Add(new FactCriteriaCondition<bool>(
+                default,
+                //new OrderingCondition<int>(
+                //    default,
+                //    default))
+                default));
+            foreach (var condition in _simultaneousCriteria.TestConditions)
+                Debug.Log(condition);
         }
     }
 }

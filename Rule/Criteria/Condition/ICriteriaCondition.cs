@@ -1,4 +1,4 @@
-﻿namespace ContextualDialogueSystem.Rule.Criteria
+﻿namespace ContextualDialogueSystem.Rule.Criteria.Condition
 {
     interface ICriteriaCondition
     {
