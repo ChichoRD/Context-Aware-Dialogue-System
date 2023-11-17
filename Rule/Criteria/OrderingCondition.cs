@@ -1,21 +1,25 @@
 ﻿using ContextualDialogueSystem.Fact;
 using System;
+using UnityEngine;
 
 namespace ContextualDialogueSystem.Rule.Criteria
 {
     [Serializable]
     internal class OrderingCondition<T> : IFactCondition<T>
-        where T : IEquatable<T>, IComparable<T>
+        where T : IComparable<T>
     {
-        private readonly T _value;
-        private readonly OrderingComparison _orderingComparison;
+        [SerializeField]
+        private T _value;
+        [SerializeField]
+        private OrderingComparison _orderingComparison;
         public OrderingCondition(T value, OrderingComparison orderingComparison)
         {
             _value = value;
             _orderingComparison = orderingComparison;
         }
 
-        public bool Satisfies(IFact<T> fact) => _orderingComparison switch
+        public bool Satisfies<U>(IFact<U> fact)
+            where U : T => _orderingComparison switch
         {
             OrderingComparison.LessThan => fact.Value.CompareTo(_value) < 0,
             OrderingComparison.LessThanOrEqual => fact.Value.CompareTo(_value) <= 0,

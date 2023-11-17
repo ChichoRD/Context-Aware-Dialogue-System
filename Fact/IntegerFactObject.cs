@@ -3,14 +3,19 @@ using UnityEngine;
 
 namespace ContextualDialogueSystem.Fact
 {
+    [CreateAssetMenu(fileName = OBJECT_NAME, menuName = OBJECT_PATH)]
     public class IntegerFactObject : ScriptableObject, IFact<int>, IFact<bool>,
                                                        IObservableFact<int>, IObservableFact<bool>
     {
+        private const string OBJECT_NAME = "Integer Fact Object";
+        private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Fact/" + OBJECT_NAME;
+
         private static readonly Func<Action<bool>, Action<int>> s_BoolToIntAction =
             booleanAction =>
                 integerValue =>
                     booleanAction(integerValue != 0);
 
+        [SerializeField]
         private int _value;
         public int Value 
         { 

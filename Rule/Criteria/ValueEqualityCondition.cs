@@ -1,5 +1,6 @@
 ﻿using ContextualDialogueSystem.Fact;
 using System;
+using UnityEngine;
 
 namespace ContextualDialogueSystem.Rule.Criteria
 {
@@ -7,8 +8,10 @@ namespace ContextualDialogueSystem.Rule.Criteria
     internal class ValueEqualityCondition<T> : IFactCondition<T>
         where T : IEquatable<T>
     {
-        private readonly T _value;
+        [SerializeField]
+        private T _value;
         public ValueEqualityCondition(T value) => _value = value;
-        public bool Satisfies(IFact<T> fact) => fact.Value.Equals(_value);
+        public bool Satisfies<U>(IFact<U> fact)
+            where U : T => fact.Value.Equals(_value);
     }
 }

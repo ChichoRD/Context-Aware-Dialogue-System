@@ -1,12 +1,10 @@
 ﻿using ContextualDialogueSystem.Fact;
-using System;
 
 namespace ContextualDialogueSystem.Rule.Criteria
 {
-    internal interface IFactCondition<T>
-        where T : IEquatable<T>
+    internal interface IFactCondition<in T>
     {
-        // Maybe remove generic type parameter?
-        bool Satisfies(IFact<T> fact);
+        bool Satisfies<U>(IFact<U> fact)
+            where U : T;
     }
 }
