@@ -2,9 +2,10 @@
 
 namespace ContextualDialogueSystem.Rule
 {
-    public interface IDialogueRule<out TContent>
+    public interface IDialogueRule<out TContent, out TCriteria>
+        where TCriteria : ICriteria
     {
-        ICriteria Criteria { get; }
         TContent Content { get; }
+        TCriteria Criteria { get; }
     }
 }

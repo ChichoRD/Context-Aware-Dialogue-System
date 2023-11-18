@@ -11,7 +11,8 @@ namespace ContextualDialogueSystem.Rule.Criteria.Condition
         [SerializeField]
         private T _value;
         public ValueEqualityCondition(T value) => _value = value;
-        public bool Satisfies<U>(IFact<U> fact)
-            where U : T => fact.Value.Equals(_value);
+
+        bool IFactCondition<T>.Satisfies<U>(IFact<U> fact) =>
+            fact.Value.Equals(_value);
     }
 }

@@ -18,8 +18,7 @@ namespace ContextualDialogueSystem.Rule.Criteria.Condition
             _orderingComparison = orderingComparison;
         }
 
-        public bool Satisfies<U>(IFact<U> fact)
-            where U : T => _orderingComparison switch
+        bool IFactCondition<T>.Satisfies<U>(IFact<U> fact) => _orderingComparison switch
         {
             OrderingComparison.LessThan => fact.Value.CompareTo(_value) < 0,
             OrderingComparison.LessThanOrEqual => fact.Value.CompareTo(_value) <= 0,

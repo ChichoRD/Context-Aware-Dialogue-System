@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdcf65b3c2152b74399cda90094d863a, type: 3}
   m_Name: Speech Dialogue Rule
   m_EditorClassIdentifier: 
-  _criteriaObject: {fileID: 11400000, guid: 7e8e8fcf91a69974c81023a9910f986a, type: 2}
-  <OverrideCriteria>k__BackingField:
-    rid: -2
-  _content:
-    _textStrings: []
+  _rule:
+    _criteriaObject: {fileID: 0}
+    _criteria:
+      rid: -2
+    <Content>k__BackingField:
+      _textStrings: []
   references:
     version: 2
     RefIds:

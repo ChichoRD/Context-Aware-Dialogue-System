@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dbcd2608bf4aa74e9c2bd91ed9192ce, type: 3}
-  m_Name: Criteria Object
+  m_Script: {fileID: 11500000, guid: 7530d7a528bf30244b1fda9386e23ce3, type: 3}
+  m_Name: Event Binder Object
   m_EditorClassIdentifier: 
-  _simultaneousCriteria:
-    _conditions: []
-  references:
-    version: 2
-    RefIds: []
+  _dialogueEventObjects:
+  - {fileID: 11400000, guid: a7e14aaf96373414b9fbb08de2164882, type: 2}

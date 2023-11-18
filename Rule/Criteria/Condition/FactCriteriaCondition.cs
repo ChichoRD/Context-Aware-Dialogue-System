@@ -1,22 +1,31 @@
 ﻿using ContextualDialogueSystem.Fact;
-using System;
+using UnityEngine;
 
 namespace ContextualDialogueSystem.Rule.Criteria.Condition
 {
     // TODO - Invent some kind of wrapper that avoids [SerializeReference] for generic interfaces
     // TODO - [SF] generic class OK, [SR] non-generic interface OK
-    [Serializable]
     internal class FactCriteriaCondition<T> : ICriteriaCondition
     {
-        private readonly IFact<T> _fact;
-        private readonly IFactCondition<T> _condition;
+        [SerializeField]
+        private ScriptableObject _factObject;
+
+        private IFact<T> _fact;
+        public IFact<T> Fact 
+        { 
+            get => _fact ?? _factObject as IFact<T>; 
+            private set => _fact = value;
+        }
+
+        [field: SerializeReference]
+        public IFactCondition Condition { private get; set; }
 
         public FactCriteriaCondition(IFact<T> fact, IFactCondition<T> condition)
         {
-            _fact = fact;
-            _condition = condition;
+            Fact = fact;
+            Condition = condition;
         }
 
-        public bool Satisfies() => _condition.Satisfies(_fact);
+        public bool Satisfies() => Condition.Satisfies(Fact);
     }
 }

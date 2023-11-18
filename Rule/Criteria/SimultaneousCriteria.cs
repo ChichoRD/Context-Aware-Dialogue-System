@@ -9,16 +9,23 @@ namespace ContextualDialogueSystem.Rule.Criteria
     [Serializable]
     internal class SimultaneousCriteria : ICriteria
     {
-        [field: SerializeReference]
-        public List<ICriteriaCondition> TestConditions { get; private set; } = new List<ICriteriaCondition>() { new FactCriteriaCondition<int>(default, default) };
-
-        private readonly IEnumerable<ICriteriaCondition> _conditions;
+        [SerializeReference]
+        private List<ICriteriaCondition> _conditions;
+        public IList<ICriteriaCondition> Conditions => _conditions;
 
         public SimultaneousCriteria(IEnumerable<ICriteriaCondition> conditions)
         {
-            _conditions = conditions;
+            _conditions = new List<ICriteriaCondition>(conditions);
         }
 
-        public bool IsMet() => _conditions.All(condition => condition.Satisfies());
+        public SimultaneousCriteria(params ICriteriaCondition[] conditions) : this(conditions.AsEnumerable())
+        {
+        }
+
+        public SimultaneousCriteria() : this(Enumerable.Empty<ICriteriaCondition>())
+        {
+        }
+
+        public bool IsMet() => Conditions.All(condition => condition.Satisfies());
     }
 }

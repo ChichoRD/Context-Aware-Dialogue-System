@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ContextualDialogueSystem.Fact
 {
@@ -22,6 +21,6 @@ namespace ContextualDialogueSystem.Fact
             }
         }
 
-        public event Action<float> ValueSet;
+        public event FactValueAction<float> ValueSet;
     }
 }

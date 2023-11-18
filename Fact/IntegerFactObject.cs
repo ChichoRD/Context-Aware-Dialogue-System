@@ -10,7 +10,7 @@ namespace ContextualDialogueSystem.Fact
         private const string OBJECT_NAME = "Integer Fact Object";
         private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Fact/" + OBJECT_NAME;
 
-        private static readonly Func<Action<bool>, Action<int>> s_BoolToIntAction =
+        private static readonly Func<FactValueAction<bool>, FactValueAction<int>> s_BoolToIntAction =
             booleanAction =>
                 integerValue =>
                     booleanAction(integerValue != 0);
@@ -34,9 +34,9 @@ namespace ContextualDialogueSystem.Fact
         }
 
 
-        public event Action<int> ValueSet;
+        public event FactValueAction<int> ValueSet;
 
-        event Action<bool> IObservableFact<bool>.ValueSet
+        event FactValueAction<bool> IObservableFact<bool>.ValueSet
         {
             add => ValueSet += s_BoolToIntAction(value);
             remove => ValueSet -= s_BoolToIntAction(value);

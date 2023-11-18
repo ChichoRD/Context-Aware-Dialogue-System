@@ -5,10 +5,14 @@ using UnityEngine;
 
 namespace ContextualDialogueSystem.Event
 {
+    [CreateAssetMenu(fileName = OBJECT_NAME, menuName = OBJECT_PATH)]
     public class EventBinderObject : ScriptableObject, IObservableDialogueEvent
     {
+        private const string OBJECT_NAME = "Event Binder Object";
+        private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Event/" + OBJECT_NAME;
+
         [SerializeField]
-        private Object[] _dialogueEventObjects;
+        private ScriptableObject[] _dialogueEventObjects;
         private IEnumerable<IObservableDialogueEvent> _dialogueEvents;
 
         public bool Subscribe<TRuleContent>(IDialogueRuleHandler<TRuleContent> dialogueRuleHandler)

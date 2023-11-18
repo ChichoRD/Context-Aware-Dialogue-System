@@ -11,27 +11,33 @@ namespace ContextualDialogueSystem.Rule.Criteria
         private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Rule/Criteria/" + OBJECT_NAME;
 
         [SerializeField]
-        private OrderingCondition<int> _orderingCondition;
-
-        [SerializeField]
         private SimultaneousCriteria _simultaneousCriteria;
+        public bool IsMet() => _simultaneousCriteria.IsMet();
 
-        public bool IsMet()
+        // TODO - Invert type selection
+
+        [ContextMenu(nameof(AddValueEqualityCondition))]
+        private void AddValueEqualityCondition()
         {
-            throw new System.NotImplementedException();
+            FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
+                            null,
+                            new CriteriaExtensions.IntegerValueEqualityCondition(0));
+            _simultaneousCriteria.Conditions.Add(condition);
+        }
+
+        [ContextMenu(nameof(AddOrderingCondition))]
+        private void AddOrderingCondition()
+        {
+            FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
+                            null,
+                            new CriteriaExtensions.IntegerOrderingCondition(0, OrderingComparison.LessThan));
+            _simultaneousCriteria.Conditions.Add(condition);
         }
 
         [ContextMenu(nameof(DebugCriteria))]
         private void DebugCriteria()
         {
-            _simultaneousCriteria.TestConditions.Add(new FactCriteriaCondition<bool>(
-                default,
-                //new OrderingCondition<int>(
-                //    default,
-                //    default))
-                default));
-            foreach (var condition in _simultaneousCriteria.TestConditions)
-                Debug.Log(condition);
+            Debug.Log(_simultaneousCriteria.IsMet());
         }
     }
 }

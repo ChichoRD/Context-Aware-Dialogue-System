@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace ContextualDialogueSystem.Fact
+﻿namespace ContextualDialogueSystem.Fact
 {
     internal interface IObservableFact<T>
     {
-        event Action<T> ValueSet;
+        event FactValueAction<T> ValueSet;
     }
 }
