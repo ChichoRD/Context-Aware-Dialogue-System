@@ -13,7 +13,20 @@ MonoBehaviour:
   m_Name: Criteria Object
   m_EditorClassIdentifier: 
   _simultaneousCriteria:
-    _conditions: []
+    _conditions:
+    - rid: 9131109147819376647
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 9131109147819376647
+      type: {class: CriteriaExtensions/IntegerFactCriteriaCondition, ns: ContextualDialogueSystem.Rule.Criteria,
+        asm: ContextAwareDialogueSystem}
+      data:
+        _factObject: {fileID: 11400000, guid: bad6ce673dcf5f346ab899705e7e77f2, type: 2}
+        <Condition>k__BackingField:
+          rid: 9131109147819376648
+    - rid: 9131109147819376648
+      type: {class: CriteriaExtensions/IntegerValueEqualityCondition, ns: ContextualDialogueSystem.Rule.Criteria,
+        asm: ContextAwareDialogueSystem}
+      data:
+        _value: 44

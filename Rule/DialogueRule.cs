@@ -13,6 +13,9 @@ namespace ContextualDialogueSystem.Rule
         [SerializeField]
         private ScriptableObject _criteriaObject;
 
+        [field: SerializeField]
+        public TContent Content { get; private set; }
+
         [SerializeReference]
         private TCriteria _criteria;
         public TCriteria Criteria 
@@ -21,13 +24,10 @@ namespace ContextualDialogueSystem.Rule
             private set =>_criteria = value;
         }
 
-        [field: SerializeField]
-        public TContent Content { get; private set; }
-
-        public DialogueRule(TCriteria criteria, TContent content)
+        public DialogueRule(TContent content, TCriteria criteria)
         {
-            Criteria = criteria;
             Content = content;
+            Criteria = criteria;
         }
     }
 }

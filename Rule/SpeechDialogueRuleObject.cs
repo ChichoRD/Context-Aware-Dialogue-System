@@ -12,42 +12,45 @@ namespace ContextualDialogueSystem.Rule
         private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Rule/" + OBJECT_NAME;
 
         [SerializeField]
-        private DialogueRule<SpeechContent, SimultaneousCriteria> _rule;
+        [HideInInspector]
+        private SimultaneousCriteria _cachedSimultaneousCriteria;
+        [SerializeField]
+        private DialogueRule<SpeechContent, ICriteria> _rule;
         public ISpeechContent<string> Content => _rule.Content;
         public ICriteria Criteria => _rule.Criteria;
 
 
         [ContextMenu(nameof(ClearCriteria))]
-        private void ClearCriteria() => _rule = new DialogueRule<SpeechContent, SimultaneousCriteria>(null, _rule.Content);
+        private void ClearCriteria() => _rule = new DialogueRule<SpeechContent, ICriteria>(_rule.Content, null);
 
         [ContextMenu(nameof(ClearContent))]
-        private void ClearContent() => _rule = new DialogueRule<SpeechContent, SimultaneousCriteria>(_rule.Criteria, default);
+        private void ClearContent() => _rule = new DialogueRule<SpeechContent, ICriteria>(default, _rule.Criteria);
 
         [ContextMenu(nameof(SetCriteriaToNewSimultaneous))]
-        private void SetCriteriaToNewSimultaneous() => _rule = new DialogueRule<SpeechContent, SimultaneousCriteria>(new SimultaneousCriteria(), _rule.Content);
+        private void SetCriteriaToNewSimultaneous() => _rule = new DialogueRule<SpeechContent, ICriteria>(_rule.Content, _cachedSimultaneousCriteria = new SimultaneousCriteria());
 
         [ContextMenu(nameof(AddValueEqualityCondition))]
         private void AddValueEqualityCondition()
         {
-            if (_rule.Criteria == null)
+            if (_cachedSimultaneousCriteria == null)
                 SetCriteriaToNewSimultaneous();
 
             FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
                             null,
                             new CriteriaExtensions.IntegerValueEqualityCondition(0));
-            _rule.Criteria.Conditions.Add(condition);
+            _cachedSimultaneousCriteria.Conditions.Add(condition);
         }
 
         [ContextMenu(nameof(AddOrderingCondition))]
         private void AddOrderingCondition()
         {
-            if (_rule.Criteria == null)
+            if (_cachedSimultaneousCriteria == null)
                 SetCriteriaToNewSimultaneous();
 
             FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
                             null,
                             new CriteriaExtensions.IntegerOrderingCondition(0, OrderingComparison.LessThan));
-            _rule.Criteria.Conditions.Add(condition);
+            _cachedSimultaneousCriteria.Conditions.Add(condition);
         }
     }
 }

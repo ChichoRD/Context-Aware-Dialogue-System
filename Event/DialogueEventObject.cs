@@ -19,6 +19,7 @@ namespace ContextualDialogueSystem.Event
 
         public event RuleDispatch<object> RuleDispatched;
 
+        [ContextMenu(nameof(Dispatch))]
         public void Dispatch()
         {
             _dialogueRules = _dialogueRuleObjects.OfType<IDialogueRule<object, ICriteria>>();
