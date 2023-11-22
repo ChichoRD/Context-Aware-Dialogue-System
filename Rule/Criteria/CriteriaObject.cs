@@ -1,5 +1,5 @@
-﻿using ContextualDialogueSystem.Fact;
-using ContextualDialogueSystem.Rule.Criteria.Condition;
+﻿using ContextualDialogueSystem.Rule.Criteria.Condition;
+using ContextualDialogueSystem.Rule.Criteria.Condition.Factory;
 using UnityEngine;
 
 namespace ContextualDialogueSystem.Rule.Criteria
@@ -12,32 +12,37 @@ namespace ContextualDialogueSystem.Rule.Criteria
 
         [SerializeField]
         private SimultaneousCriteria _simultaneousCriteria;
+        private ICriteriaConditionFactory _criteriaConditionFactory;
+
         public bool IsMet() => _simultaneousCriteria.IsMet();
 
-        // TODO - Invert type selection
+        private void SetFactories<T>(T factory) where T : ICriteriaConditionFactory =>
+            _criteriaConditionFactory = factory;
 
-        [ContextMenu(nameof(AddValueEqualityCondition))]
-        private void AddValueEqualityCondition()
-        {
-            FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
-                            null,
-                            new CriteriaExtensions.IntegerValueEqualityCondition(0));
-            _simultaneousCriteria.Conditions.Add(condition);
-        }
+        [ContextMenu(nameof(SetCriteriaFactoryToInteger))]
+        private void SetCriteriaFactoryToInteger() => SetFactories(new IntegerFactCriteriaConditionFactory());
 
-        [ContextMenu(nameof(AddOrderingCondition))]
-        private void AddOrderingCondition()
-        {
-            FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
-                            null,
-                            new CriteriaExtensions.IntegerOrderingCondition(0, OrderingComparison.LessThan));
-            _simultaneousCriteria.Conditions.Add(condition);
-        }
+        [ContextMenu(nameof(SetCriteriaFactoryToFloat))]
+        private void SetCriteriaFactoryToFloat() => SetFactories(new FloatFactCriteriaConditionFactory());
 
-        [ContextMenu(nameof(DebugCriteria))]
-        private void DebugCriteria()
-        {
-            Debug.Log(_simultaneousCriteria.IsMet());
-        }
+        [ContextMenu(nameof(SetCriteriaFactoryToString))]
+        private void SetCriteriaFactoryToString() => SetFactories(new StringFactCriteriaConditionFactory());
+
+        [ContextMenu(nameof(SetFactConditionToValueEquality))]
+        private void SetFactConditionToValueEquality() =>
+            _criteriaConditionFactory = _criteriaConditionFactory
+                .TryConfigureWith(new ValueEqualityCondition<int>(default))
+                .TryConfigureWith(new ValueEqualityCondition<float>(default))
+                .TryConfigureWith(new ValueEqualityCondition<string>(string.Empty));
+
+        [ContextMenu(nameof(SetFactConditionToOrdering))]
+        private void SetFactConditionToOrdering() =>
+            _criteriaConditionFactory = _criteriaConditionFactory
+                .TryConfigureWith(new OrderingCondition<int>(default, default))
+                .TryConfigureWith(new OrderingCondition<float>(default, default))
+                .TryConfigureWith(new OrderingCondition<string>(string.Empty, default));
+
+        [ContextMenu(nameof(AddCondition))]
+        private void AddCondition() => _simultaneousCriteria.Conditions.Add(_criteriaConditionFactory.Create());
     }
 }
