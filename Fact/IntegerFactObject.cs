@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ContextualDialogueSystem.Fact
 {
@@ -10,36 +9,14 @@ namespace ContextualDialogueSystem.Fact
         private const string OBJECT_NAME = "Integer Fact Object";
         private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Fact/" + OBJECT_NAME;
 
-        private static readonly Func<FactValueAction<bool>, FactValueAction<int>> s_BoolToIntAction =
-            booleanAction =>
-                integerValue =>
-                    booleanAction(integerValue != 0);
-
         [SerializeField]
-        private int _value;
-        public int Value 
-        { 
-            get => _value;
-            set
-            {
-                _value = value;
-                ValueSet?.Invoke(_value);
-            }
-        }
+        private ObservableFact<int> _observableFact;
 
-        bool IFact<bool>.Value
-        { 
-            get => Value != 0;
-            set => Value = value ? 1 : 0;
-        }
+        public int Value { get => _observableFact.Value; set => _observableFact.Value = value; }
+        bool IFact<bool>.Value { get => this.GetValueFrom(); set => this.SetValueFrom(value); }
 
+        public event FactValueAction<int> ValueSet { add => _observableFact.ValueSet += value; remove => _observableFact.ValueSet -= value; }
 
-        public event FactValueAction<int> ValueSet;
-
-        event FactValueAction<bool> IObservableFact<bool>.ValueSet
-        {
-            add => ValueSet += s_BoolToIntAction(value);
-            remove => ValueSet -= s_BoolToIntAction(value);
-        }
+        event FactValueAction<bool> IObservableFact<bool>.ValueSet { add => this.AddActionFrom(value); remove => this.RemoveActionFrom(value); }
     }
 }

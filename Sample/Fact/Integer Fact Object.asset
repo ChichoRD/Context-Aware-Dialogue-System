@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58cc2eb232f41949b0b20de5480e7a8, type: 3}
   m_Name: Integer Fact Object
   m_EditorClassIdentifier: 
-  _value: 44
+  _observableFact:
+    _value: 0

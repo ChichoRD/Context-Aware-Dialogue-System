@@ -16,17 +16,14 @@ namespace ContextualDialogueSystem.Rule.Criteria
 
         public bool IsMet() => _simultaneousCriteria.IsMet();
 
-        private void SetFactories<T>(T factory) where T : ICriteriaConditionFactory =>
-            _criteriaConditionFactory = factory;
-
         [ContextMenu(nameof(SetCriteriaFactoryToInteger))]
-        private void SetCriteriaFactoryToInteger() => SetFactories(new IntegerFactCriteriaConditionFactory());
+        private void SetCriteriaFactoryToInteger() => _criteriaConditionFactory = new IntegerFactCriteriaConditionFactory();
 
         [ContextMenu(nameof(SetCriteriaFactoryToFloat))]
-        private void SetCriteriaFactoryToFloat() => SetFactories(new FloatFactCriteriaConditionFactory());
+        private void SetCriteriaFactoryToFloat() => _criteriaConditionFactory = new FloatFactCriteriaConditionFactory();
 
         [ContextMenu(nameof(SetCriteriaFactoryToString))]
-        private void SetCriteriaFactoryToString() => SetFactories(new StringFactCriteriaConditionFactory());
+        private void SetCriteriaFactoryToString() => _criteriaConditionFactory = new StringFactCriteriaConditionFactory();
 
         [ContextMenu(nameof(SetFactConditionToValueEquality))]
         private void SetFactConditionToValueEquality() =>

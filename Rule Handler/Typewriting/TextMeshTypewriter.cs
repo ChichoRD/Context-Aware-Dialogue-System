@@ -30,11 +30,10 @@ namespace ContextualDialogueSystem.RuleHandler.Typewriting
 
         private void OnDestroy() => _observableTypewriter.CharacterTyped -= OnCharacterTyped;
 
-        private bool OnCharacterTyped(string typedMessage, out Task stateTask)
+        private Task OnCharacterTyped(string typedMessage)
         {
             _textMesh.maxVisibleCharacters = typedMessage.Length;
-            stateTask = Task.CompletedTask;
-            return false;
+            return Task.CompletedTask;
         }
 
         public Task Type(string text)

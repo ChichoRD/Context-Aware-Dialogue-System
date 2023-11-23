@@ -1,6 +1,7 @@
 ﻿using ContextualDialogueSystem.Rule.Content;
 using ContextualDialogueSystem.Rule.Criteria;
 using ContextualDialogueSystem.Rule.Criteria.Condition;
+using ContextualDialogueSystem.Rule.Criteria.Condition.Factory;
 using UnityEngine;
 
 namespace ContextualDialogueSystem.Rule
@@ -16,9 +17,10 @@ namespace ContextualDialogueSystem.Rule
         private SimultaneousCriteria _cachedSimultaneousCriteria;
         [SerializeField]
         private DialogueRule<SpeechContent, ICriteria> _rule;
+        private ICriteriaConditionFactory _criteriaConditionFactory;
+
         public ISpeechContent<string> Content => _rule.Content;
         public ICriteria Criteria => _rule.Criteria;
-
 
         [ContextMenu(nameof(ClearCriteria))]
         private void ClearCriteria() => _rule = new DialogueRule<SpeechContent, ICriteria>(_rule.Content, null);
@@ -26,31 +28,33 @@ namespace ContextualDialogueSystem.Rule
         [ContextMenu(nameof(ClearContent))]
         private void ClearContent() => _rule = new DialogueRule<SpeechContent, ICriteria>(default, _rule.Criteria);
 
-        [ContextMenu(nameof(SetCriteriaToNewSimultaneous))]
-        private void SetCriteriaToNewSimultaneous() => _rule = new DialogueRule<SpeechContent, ICriteria>(_rule.Content, _cachedSimultaneousCriteria = new SimultaneousCriteria());
+        [ContextMenu(nameof(SetCriteria))]
+        private void SetCriteria() => _rule = new DialogueRule<SpeechContent, ICriteria>(_rule.Content, _cachedSimultaneousCriteria);
 
-        [ContextMenu(nameof(AddValueEqualityCondition))]
-        private void AddValueEqualityCondition()
-        {
-            if (_cachedSimultaneousCriteria == null)
-                SetCriteriaToNewSimultaneous();
+        [ContextMenu(nameof(SetCriteriaFactoryToInteger))]
+        private void SetCriteriaFactoryToInteger() => _criteriaConditionFactory = new IntegerFactCriteriaConditionFactory();
 
-            FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
-                            null,
-                            new CriteriaExtensions.IntegerValueEqualityCondition(0));
-            _cachedSimultaneousCriteria.Conditions.Add(condition);
-        }
+        [ContextMenu(nameof(SetCriteriaFactoryToFloat))]
+        private void SetCriteriaFactoryToFloat() => _criteriaConditionFactory = new FloatFactCriteriaConditionFactory();
 
-        [ContextMenu(nameof(AddOrderingCondition))]
-        private void AddOrderingCondition()
-        {
-            if (_cachedSimultaneousCriteria == null)
-                SetCriteriaToNewSimultaneous();
+        [ContextMenu(nameof(SetCriteriaFactoryToString))]
+        private void SetCriteriaFactoryToString() => _criteriaConditionFactory = new StringFactCriteriaConditionFactory();
 
-            FactCriteriaCondition<int> condition = new CriteriaExtensions.IntegerFactCriteriaCondition(
-                            null,
-                            new CriteriaExtensions.IntegerOrderingCondition(0, OrderingComparison.LessThan));
-            _cachedSimultaneousCriteria.Conditions.Add(condition);
-        }
+        [ContextMenu(nameof(SetFactConditionToValueEquality))]
+        private void SetFactConditionToValueEquality() =>
+        _criteriaConditionFactory = _criteriaConditionFactory
+                .TryConfigureWith(new ValueEqualityCondition<int>(default))
+                .TryConfigureWith(new ValueEqualityCondition<float>(default))
+                .TryConfigureWith(new ValueEqualityCondition<string>(string.Empty));
+
+        [ContextMenu(nameof(SetFactConditionToOrdering))]
+        private void SetFactConditionToOrdering() =>
+        _criteriaConditionFactory = _criteriaConditionFactory
+                .TryConfigureWith(new OrderingCondition<int>(default, default))
+                .TryConfigureWith(new OrderingCondition<float>(default, default))
+                .TryConfigureWith(new OrderingCondition<string>(string.Empty, default));
+
+        [ContextMenu(nameof(AddCondition))]
+        private void AddCondition() => _cachedSimultaneousCriteria.Conditions.Add(_criteriaConditionFactory.Create());
     }
 }

@@ -10,17 +10,9 @@ namespace ContextualDialogueSystem.Fact
         private const string OBJECT_PATH = "Context-Aware-Dialogue-System/Fact/" + OBJECT_NAME;
 
         [SerializeField]
-        private string _value;
-        public string Value
-        {
-            get => _value;
-            set
-            {
-                _value = value;
-                ValueSet?.Invoke(_value);
-            }
-        }
+        private ObservableFact<string> _observableFact;
+        public string Value { get => _observableFact.Value; set => _observableFact.Value = value; }
 
-        public event FactValueAction<string> ValueSet;
+        public event FactValueAction<string> ValueSet { add => _observableFact.ValueSet += value; remove => _observableFact.ValueSet -= value; }
     }
 }

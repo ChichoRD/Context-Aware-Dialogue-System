@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df75f60f69080734abb0b49769221c62, type: 3}
-  m_Name: Float Fact Object
+  m_Script: {fileID: 11500000, guid: 398c357627599a64b916c8444d1bdd6e, type: 3}
+  m_Name: Dialogue Rule Counter Object
   m_EditorClassIdentifier: 
-  _observableFact:
-    _value: 0
+  _ruleObject: {fileID: 11400000, guid: d1961ff4c7db1af41a529a8e7a0ea9f6, type: 2}
+  _dispatchCountFact:
+    _value: 1

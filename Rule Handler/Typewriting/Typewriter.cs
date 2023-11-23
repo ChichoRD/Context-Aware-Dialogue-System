@@ -8,12 +8,7 @@ namespace ContextualDialogueSystem.RuleHandler.Typewriting
     internal class Typewriter : MonoBehaviour, ITypewriter, IObservableTypewriter
     {
         private const int SECONDS_TO_MILLISECONDS = 1000;
-        private readonly static TypingStateFunc s_DefaultTypingStateFunc = (string text, out Task stateTask) =>
-        {
-            stateTask = Task.CompletedTask;
-            return false;
-        };
-
+        private readonly static TypingStateFunc s_DefaultTypingStateFunc = _ => Task.CompletedTask;
         [RequireInterface(typeof(ITypewritingDelayService))]
         [SerializeField]
         private Object _typewritingDelayObject;
@@ -28,7 +23,7 @@ namespace ContextualDialogueSystem.RuleHandler.Typewriting
 
         private void Awake()
         {
-            _typewritingDelayService = _typewritingDelayObject as ITypewritingDelayService;
+            _typewritingDelayService = _typewritingDelayObject as ITypewritingDelayService ?? new UnitTypewritingDelayService();
         }
 
         public async Task Delete(int amount)
@@ -42,8 +37,7 @@ namespace ContextualDialogueSystem.RuleHandler.Typewriting
                 await Task.Delay((int)(preTypeDelay * SECONDS_TO_MILLISECONDS));
 
                 _typedMessageBuilder.Remove(_typedMessageBuilder.Length - 1, 1);
-                if (CharacterTyped.Invoke(_typedMessageBuilder.ToString(), out Task stateTask))
-                    await stateTask;
+                await CharacterTyped.Invoke(_typedMessageBuilder.ToString());
 
                 await Task.Delay((int)(postTypeDelay * SECONDS_TO_MILLISECONDS));
             }
@@ -62,8 +56,7 @@ namespace ContextualDialogueSystem.RuleHandler.Typewriting
                 await Task.Delay((int)(preTypeDelay * SECONDS_TO_MILLISECONDS));
 
                 _typedMessageBuilder.Append(text[i]);
-                if (CharacterTyped.Invoke(_typedMessageBuilder.ToString(), out Task stateTask))
-                    await stateTask;
+                await CharacterTyped.Invoke(_typedMessageBuilder.ToString());
 
                 await Task.Delay((int)(postTypeDelay * SECONDS_TO_MILLISECONDS));
             }
@@ -72,10 +65,14 @@ namespace ContextualDialogueSystem.RuleHandler.Typewriting
         public async Task TypeOver(string text)
         {
             _typedMessageBuilder.Clear();
-            if (CharacterTyped.Invoke(_typedMessageBuilder.ToString(), out Task stateTask))
-                await stateTask;
+            await CharacterTyped.Invoke(_typedMessageBuilder.ToString());
 
             await Type(text);
+        }
+
+        private class UnitTypewritingDelayService : ITypewritingDelayService
+        {
+            public float GetDelay(string typedMessage) => 0.0f;
         }
     }
 }

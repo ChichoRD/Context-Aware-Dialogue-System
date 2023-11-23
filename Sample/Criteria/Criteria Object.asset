@@ -14,22 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _simultaneousCriteria:
     _conditions:
-    - rid: 9131109185211858958
+    - rid: 9131109185211858969
   references:
     version: 2
     RefIds:
-    - rid: 9131109185211858958
-      type: {class: FloatFactCriteriaConditionFactory/FloatFactCriteriaCondition,
+    - rid: 9131109185211858969
+      type: {class: IntegerFactCriteriaConditionFactory/IntegerFactCriteriaCondition,
         ns: ContextualDialogueSystem.Rule.Criteria.Condition.Factory, asm: ContextAwareDialogueSystem}
       data:
         _condition:
-          _factObject: {fileID: 0}
+          _factObject: {fileID: 11400000, guid: 38b672016940f3f48a03790a264eec12,
+            type: 2}
           <Condition>k__BackingField:
-            rid: 9131109185211858959
-    - rid: 9131109185211858959
-      type: {class: FloatFactCriteriaConditionFactory/OrderingCondition, ns: ContextualDialogueSystem.Rule.Criteria.Condition.Factory,
+            rid: 9131109185211858970
+    - rid: 9131109185211858970
+      type: {class: IntegerFactCriteriaConditionFactory/OrderingCondition, ns: ContextualDialogueSystem.Rule.Criteria.Condition.Factory,
         asm: ContextAwareDialogueSystem}
       data:
         _condition:
-          _value: 0
+          _value: 1
           _orderingComparison: 0
