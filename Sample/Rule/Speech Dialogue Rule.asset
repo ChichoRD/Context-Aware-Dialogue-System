@@ -15,19 +15,16 @@ MonoBehaviour:
   _cachedSimultaneousCriteria:
     _conditions: []
   _rule:
-    _criteriaObject: {fileID: 0}
+    _criteriaObject: {fileID: 11400000, guid: 7e8e8fcf91a69974c81023a9910f986a, type: 2}
     <Content>k__BackingField:
       _textStrings:
       - <Text>k__BackingField: Use {Interact} to interact.
       - <Text>k__BackingField: Hello, <link="w">human</link>.
       - <Text>k__BackingField: <color=#FF0000>Die</color>.
     _criteria:
-      rid: 9131109185211858971
+      rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 9131109185211858971
-      type: {class: SimultaneousCriteria, ns: ContextualDialogueSystem.Rule.Criteria,
-        asm: ContextAwareDialogueSystem}
-      data:
-        _conditions: []
+    - rid: -2
+      type: {class: , ns: , asm: }

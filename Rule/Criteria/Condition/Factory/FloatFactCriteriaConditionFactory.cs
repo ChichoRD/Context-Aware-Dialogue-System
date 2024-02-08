@@ -55,7 +55,7 @@ namespace ContextualDialogueSystem.Rule.Criteria.Condition.Factory
 
             bool IFactCondition<float>.Satisfies<U>(IFact<U> fact)
             {
-                return ((IFactCondition<IEquatable<float>>)_condition).Satisfies(fact);
+                return ((IFactCondition<float>)_condition).Satisfies(fact);
             }
         }
         
